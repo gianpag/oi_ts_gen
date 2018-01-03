@@ -24,11 +24,25 @@ r1 = requests.Session()
 
 for batch in metrics_batch:
 
+    '''
+    Sending the first element of the list with a dedicated POST
+    to cause metric registration in case it's not yet registered.
+    '''
+
     res = r1.post(
         url,
         headers=headers,
         auth=(oi_user, oi_pass),
-        json=batch
+        json=batch[0]
+    )
+
+    time.sleep(5)
+
+    res = r1.post(
+        url,
+        headers=headers,
+        auth=(oi_user, oi_pass),
+        json=batch[1:]
     )
 
     r1_status_code = res.status_code
@@ -42,4 +56,4 @@ for batch in metrics_batch:
         with open(filename.replace(" ", "_"), 'w') as outfile:
             json.dump(batch, outfile)
 
-    time.sleep(60)
+    time.sleep(30)
