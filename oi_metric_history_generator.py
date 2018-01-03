@@ -22,31 +22,41 @@ print 'number of data batches: ', len(metrics_batch)
 
 r1 = requests.Session()
 
+mi = 0
 for batch in metrics_batch:
 
-    '''
-    Sending the first element of the list with a dedicated POST
-    to cause metric registration in case it's not yet registered.
-    '''
+    if mi == 0:
+        '''
+        Sending the first element of the list with a dedicated POST
+        to cause metric registration in case it's not yet registered.
+        '''
 
-    res = r1.post(
-        url,
-        headers=headers,
-        auth=(oi_user, oi_pass),
-        data=json.dumps(batch[0])
-    )
+        res = r1.post(
+            url,
+            headers=headers,
+            auth=(oi_user, oi_pass),
+            data='['+json.dumps(batch[0])+']'
+        )
 
-    print 'START batch[0] dump\n\n', json.dumps(batch[0])
-    print 'batch[0] POST status: ', res.status_code
-    print 'END batch[0] dump\n\n'
-    time.sleep(30)
+        print 'START batch[0] dump\n\n', '['+json.dumps(batch[0])+']'
+        print 'batch[0] POST status: ', res.status_code
+        print 'END batch[0] dump\n\n'
+        time.sleep(60)
 
-    res = r1.post(
-        url,
-        headers=headers,
-        auth=(oi_user, oi_pass),
-        data=json.dumps(batch[1:])
-    )
+        res = r1.post(
+            url,
+            headers=headers,
+            auth=(oi_user, oi_pass),
+            data=json.dumps(batch[1:])
+        )
+        time.sleep(60)
+    else:
+        res = r1.post(
+            url,
+            headers=headers,
+            auth=(oi_user, oi_pass),
+            data=json.dumps(batch)
+        )
 
     r1_status_code = res.status_code
 
@@ -58,5 +68,5 @@ for batch in metrics_batch:
             datetime.datetime.now()) + '.json'
         with open(filename.replace(" ", "_"), 'w') as outfile:
             json.dump(batch, outfile)
-
-    time.sleep(30)
+    mi += 1
+    time.sleep(60)
