@@ -33,16 +33,19 @@ for batch in metrics_batch:
         url,
         headers=headers,
         auth=(oi_user, oi_pass),
-        json=batch[0]
+        data=json.dumps(batch[0])
     )
 
-    time.sleep(5)
+    print 'START batch[0] dump\n\n', json.dumps(batch[0])
+    print 'batch[0] POST status: ', res.status_code
+    print 'END batch[0] dump\n\n'
+    time.sleep(30)
 
     res = r1.post(
         url,
         headers=headers,
         auth=(oi_user, oi_pass),
-        json=batch[1:]
+        data=json.dumps(batch[1:])
     )
 
     r1_status_code = res.status_code
