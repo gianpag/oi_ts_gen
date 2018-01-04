@@ -38,9 +38,13 @@ for batch in metrics_batch:
             data='['+json.dumps(batch[0])+']'
         )
 
-        print 'START batch[0] dump\n\n', '['+json.dumps(batch[0])+']'
+        print 'Initial metric sent for registration\n\n',
+        '['+json.dumps(batch[0])+']'
+
         print 'batch[0] POST status: ', res.status_code
-        print 'END batch[0] dump\n\n'
+
+        print 'Sleeping for 60 seconds to let the midserver digest ',
+        'the first bite\n\n'
         time.sleep(60)
 
         res = r1.post(
@@ -61,7 +65,9 @@ for batch in metrics_batch:
     r1_status_code = res.status_code
 
     print "status code " + str(r1_status_code)
-    print 'Sending JSON payload for ', len(batch), 'metrics'
+    print 'Sent JSON payload for ', len(batch), 'metrics'
+    print 'Sleeping for 60 seconds to let the midserver digest ', len(batch),
+    'metrics'
 
     if oi.Dump_Metrics_To_Files:
         filename = 'history_ts_json_payload' + str(mi) + '_' + str(

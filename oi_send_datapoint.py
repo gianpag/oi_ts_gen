@@ -33,17 +33,25 @@ def main(argv):
         elif opt in ("-d", "--datapoint"):
             datapoint = arg
 
-    if dp_time == '' or dp_time == 'now':
+    if dp_time == 'now':
         dp_timestamp = int(time.time())
-    json_payload = oi.generate_OI_json_payload(dp_timestamp, datapoint)
-    print 'Input file is "', dp_timestamp
-    print 'Output file is "', datapoint
+    else:
+        sys.exit(2)
+
+    if datapoint.replace('.', '').replace('-', '').isdigit():
+        checked_dp = datapoint
+    else:
+        sys.exit(2)
+
+    json_payload = oi.generate_OI_json_payload(dp_timestamp, checked_dp)
+    print 'TimeStamp is "', dp_timestamp
+    print 'Datapoint is "', datapoint, checked_dp
 
     res = r1.post(
         url,
         headers=headers,
         auth=(oi_user, oi_pass),
-        data='['+json.dumps(json_payload)+']'
+        data=json.dumps(json_payload)
     )
 
     print 'Datapoint POST completed with return code: ', res.status_code
