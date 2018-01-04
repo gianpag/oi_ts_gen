@@ -9,7 +9,6 @@ import oi_history_gen_lib as oi
 url = oi.getOI_REST_url()
 
 headers = oi.requestHeaders()
-print 'headers: ', headers
 oi_user = oi.getOI_User()
 oi_pass = oi.getOI_Password()
 
@@ -22,7 +21,7 @@ def main(argv):
     try:
         opts, args = getopt.getopt(argv, "ht:d:", ["time=", "datapoint="])
     except getopt.GetoptError:
-        print 'oi_send_datapoint.py -t now -d 10'
+        print 'USAGE: oi_send_datapoint.py -t now -d 10'
         sys.exit(2)
     for opt, arg in opts:
         if opt == '-h':
@@ -36,11 +35,14 @@ def main(argv):
     if dp_time == 'now':
         dp_timestamp = int(time.time())
     else:
+        print 'use -t now to send a datapoint with current date and time'
         sys.exit(2)
 
     if datapoint.replace('.', '').replace('-', '').isdigit():
         checked_dp = datapoint
     else:
+        print 'enter a valid number like: 3 3.0 -3'
+        print 'USAGE: oi_send_datapoint.py -t now -d 10'
         sys.exit(2)
 
     json_payload = oi.generate_OI_json_payload(dp_timestamp, checked_dp)
