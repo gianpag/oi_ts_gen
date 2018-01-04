@@ -178,3 +178,24 @@ def generate_OI_History_seasonal_timeseries():
             0, len(ts_metric_values_list), chunk_lenght)]
 
     return batched_metrics
+
+
+def generate_OI_json_payload(dp_time, datapoint):
+    """Json payload generation section."""
+    ts_metric_values_list = []
+
+    ts_metric_values_list.append(
+        {
+          "metric_type": METRIC_TYPE,
+          "resource": METRIC_RESOURCE,
+          "node": METRIC_NODE,
+          "value": datapoint,
+          "timestamp": int(dp_time)*1000,
+          "ci_identifier": {
+            "node": METRIC_NODE
+          },
+          "source": METRIC_SOURCE
+        }
+    )
+
+    return ts_metric_values_list

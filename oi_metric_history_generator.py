@@ -7,8 +7,8 @@ import oi_history_gen_lib as oi
 
 url = oi.getOI_REST_url()
 
-DATE_FORMAT = '%Y-%m-%dT%H:%M:%S.%f'
-DATE_FORMAT_GMT = '%a, %d %b %Y %H:%M:%S GMT'
+# DATE_FORMAT = '%Y-%m-%dT%H:%M:%S.%f'
+# DATE_FORMAT_GMT = '%a, %d %b %Y %H:%M:%S GMT'
 # CONTENT_TYPE = 'application/json'
 
 
@@ -64,9 +64,11 @@ for batch in metrics_batch:
     print 'Sending JSON payload for ', len(batch), 'metrics'
 
     if oi.Dump_Metrics_To_Files:
-        filename = 'history_ts_json_payload_' + str(
+        filename = 'history_ts_json_payload' + str(mi) + '_' + str(
             datetime.datetime.now()) + '.json'
-        with open(filename.replace(" ", "_"), 'w') as outfile:
+        filename.replace(" ", "_")
+        filename.replace(":", "-")
+        with open(filename, 'w') as outfile:
             json.dump(batch, outfile)
     mi += 1
     time.sleep(60)
