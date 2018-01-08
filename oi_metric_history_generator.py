@@ -43,8 +43,7 @@ for batch in metrics_batch:
 
         print 'batch[0] POST status: ', res.status_code
 
-        print 'Sleeping for 60 seconds to let the midserver digest ',
-        'the first bite\n\n'
+        print 'Sleeping for 60 seconds to let the midserver digest ', 'the first bite\n\n'
         time.sleep(60)
 
         res = r1.post(
@@ -66,8 +65,7 @@ for batch in metrics_batch:
 
     print "status code " + str(r1_status_code)
     print 'Sent JSON payload for ', len(batch), 'metrics'
-    print 'Sleeping for 60 seconds to let the midserver digest ', len(batch),
-    'metrics'
+    print 'Sleeping for 60 seconds to let the midserver digest ', len(batch), 'metrics'
 
     if oi.Dump_Metrics_To_Files:
         filename = 'history_ts_json_payload' + str(mi) + '_' + str(
