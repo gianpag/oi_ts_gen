@@ -8,3 +8,7 @@ the current version of the scripts relies on the following python libraries:
 - pandas
 
 The behavior is driven by the oi_history_generator_config.ini config file.
+
+Notes:
+If pandas library installation fails try with "pip install pandas  --no-cache-dir"
+
